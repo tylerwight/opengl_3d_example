@@ -7,38 +7,73 @@
 #include "../include/stb_image.h"
 #include "opengl_helpers.c"
 
+//brick_cube.png coords
+// w 3070 px
+// h 4090 px
+
+//front
+//bottom_left = 1020, 1025
+//bottom_right = 2043, 1025
+//top_left = 1020, 2047
+//top_right = 2043, 2047
+
+//top
+//bottom_left = 1020, 2047
+//bottom_right = 2043, 2047
+//top_left = 1020, 3070
+//top_left = 2043, 3070
 
 float cubeVertices[] = {
-    // Positions         // Colors         // Texture Coords
-    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // 0
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // 1
-     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   1.0f, 1.0f, // 2
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.0f, 1.0f, // 3
-    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 4
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   1.0f, 0.0f, // 5
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 6
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.0f, 1.0f  // 7
+    // X     Y       Z     R     G      B        U    V
+    // Back face
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.66f, 0.75f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.33f, 0.75f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.33f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.66f, 1.0f,
+
+    // Front face
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.25f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.25f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.5f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.5f,
+
+    // Left face
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.0f, 0.5f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.5f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.75f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.0f, 0.75f,
+    
+
+    // Right face
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   1.0f, 0.5f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.5f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.75f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   1.0f, 0.75f,
+
+    // Bottom face
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.25f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.25f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.66f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.33f, 0.0f,
+
+    // Top face
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.5f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.5f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.66f, 0.75f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.33f, 0.75f
+     
+     
+    
 };
 
+
 unsigned int cubeIndices[] = {
-    // Back face
-    0, 1, 2,
-    2, 3, 0,
-    // Front face
-    4, 5, 6,
-    6, 7, 4,
-    // Left face
-    4, 0, 3,
-    3, 7, 4,
-    // Right face
-    1, 5, 6,
-    6, 2, 1,
-    // Bottom face
-    4, 5, 1,
-    1, 0, 4,
-    // Top face
-    3, 2, 6,
-    6, 7, 3
+    0, 1, 2, 2, 3, 0,  // Back face
+    4, 5, 6, 6, 7, 4,  // Front face
+    8, 9, 10, 10, 11, 8,  // Left face
+    12, 13, 14, 14, 15, 12,  // Right face
+    16, 17, 18, 18, 19, 16,  // Bottom face
+    20, 21, 22, 22, 23, 20   // Top face
 };
 
 
@@ -76,7 +111,44 @@ unsigned int planeIndices[] = {
 };
 
 
+GLuint createTexture(const char *filePath) {
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
 
+    // Set texture wrapping and filtering options
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Wrap vertically
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Wrap horizontally
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Minification filter
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Magnification filter
+
+    // Load image using stb_image
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(1); // Flip images vertically (most image formats are stored upside down for OpenGL)
+    unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
+    if (data) {
+        GLenum format;
+        if (nrChannels == 1)
+            format = GL_RED;
+        else if (nrChannels == 3)
+            format = GL_RGB;
+        else if (nrChannels == 4)
+            format = GL_RGBA;
+
+        // Load texture data into OpenGL
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    } else {
+        fprintf(stderr, "Failed to load texture: %s\n", filePath);
+        stbi_image_free(data);
+        return 0; // Return 0 for failed texture loading
+    }
+    printf("Texture dimensions: %d x %d, channels: %d\n", width, height, nrChannels);
+    stbi_image_free(data);
+    return textureID;
+}
 
 
 int main() {
@@ -152,7 +224,7 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[0]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(planeIndices), planeIndices, GL_STATIC_DRAW);
 
     // Position attribute
@@ -170,9 +242,13 @@ int main() {
 
 
 
-    //load textures
-    GLuint texture1 = createTexture("assets/brick.png");
 
+
+    GLuint texture1 = createTexture("assets/brick_cube.png");
+    if (texture1 == 0) {
+        fprintf(stderr, "Error: Texture failed to load.\n");
+        return -1;
+    }
 
     //setup mvp
 
@@ -194,6 +270,7 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    
     glUseProgram(shaderProgram);
     float spin = 0.005;
     // Main loop
@@ -201,7 +278,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
         // rotate cube
-        glm_rotate(cubeModel, spin, (vec3){0.5f, 1.0f, 0.0f});
+        //glm_rotate(cubeModel, spin, (vec3){0.5f, 1.0f, 0.0f});
 
         processInput(window, cubeModel, view, projection);
 
@@ -219,6 +296,8 @@ int main() {
         // Draw cube
         glBindVertexArray(VAO[0]);
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(6 * sizeof(unsigned int) * 2)); // Left face indices
+
 
         //Draw Plane
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, (const GLfloat *)planeModel);
