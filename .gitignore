@@ -1,2 +1,4 @@
 a.out
 .vscode/settings.json
+src/3d_example.c
+src/mesh_renderer.c

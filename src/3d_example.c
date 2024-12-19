@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <cglm/cglm.h>
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "../include/stb_image.h"
 
 
 // float cubeVertices[] = {
@@ -439,8 +439,8 @@ int main() {
     float spin = 0;
 
     //load texturse
-    GLuint texture1 = createTexture("brick.png");
-
+    GLuint texture1 = createTexture("assets/brick.png");
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         // Input

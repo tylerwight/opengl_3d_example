@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #define TINYOBJ_LOADER_C_IMPLEMENTATION
-#include "tinyobj_loader_c.h"
+#include "../include/tinyobj_loader_c.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <cglm/cglm.h>
@@ -351,7 +351,7 @@ int main() {
     }
 
 
-    GLuint shaderProgram = createShaderProgram("vertex_shader.glsl", "fragment_shader.glsl");
+    GLuint shaderProgram = createShaderProgram("shaders/mesh_vertex_shader.glsl", "shaders/mesh_fragment_shader.glsl");
     glUseProgram(shaderProgram);
 
 
@@ -377,12 +377,13 @@ int main() {
 
 
 
-
+    
     // Load the OBJ file
-    Mesh mesh = loadOBJ("man.obj");
+    Mesh mesh = loadOBJ("assets/man.obj");
 
     // Set up rendering loop
     glEnable(GL_DEPTH_TEST);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
