@@ -77,16 +77,72 @@ unsigned int cubeIndices[] = {
 };
 
 
+//texture size:
+// 652 w
+// 1662 h
+
 float planeVertices[] = {
-    // Positions         // Colors         // Texture Coords
-    -5.0f, -0.5f, -10.0f,  1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // 0
-     0.5f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // 1
-     0.5f,  0.1f, -10.0f,  0.0f, 0.0f, 1.0f,   1.0f, 1.0f, // 2
-    -5.0f,  0.1f, -10.0f,  1.0f, 1.0f, 0.0f,   0.0f, 1.0f, // 3
-    -5.0f, -0.5f,   0.5f,  0.0f, 1.0f, 1.0f,   0.0f, 0.0f, // 4
-     0.5f, -0.5f,   0.5f,  1.0f, 0.0f, 1.0f,   1.0f, 0.0f, // 5
-     0.5f,  0.1f,   0.5f,  1.0f, 1.0f, 1.0f,   1.0f, 1.0f, // 6
-    -5.0f,  0.1f,   0.5f,  0.0f, 0.0f, 0.0f,   0.0f, 1.0f  // 7
+    // X     Y       Z     R     G      B        U    V
+    // Back face
+    -5.0f, -0.5f, -10.0f,  1.0f, 0.0f, 0.0f,   0.05f, 0.48f, // 0
+     0.5f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,   0.95f, 0.48f, // 1
+     0.5f,  0.1f, -10.0f,  0.0f, 0.0f, 1.0f,   0.95f, 0.5f, // 2
+    -5.0f,  0.1f, -10.0f,  1.0f, 1.0f, 0.0f,   0.05f, 0.5f, // 3
+
+    // Front face
+    -5.0f, -0.5f,   0.5f,  0.0f, 1.0f, 1.0f,   0.05, 0.48f, // 4
+     0.5f, -0.5f,   0.5f,  1.0f, 0.0f, 1.0f,   0.95f, 0.48f, // 5
+     0.5f,  0.1f,   0.5f,  1.0f, 1.0f, 1.0f,   0.95f, 0.5f, // 6
+    -5.0f,  0.1f,   0.5f,  0.0f, 0.0f, 0.0f,   0.05f, 0.5f, // 7
+    //x = 5.5
+    //y = 0.6
+    //bl = 31, 800 = 0.05, 0.48
+    //br = 620, 800 = 0.95, 0.48
+    //tr = 620, 830 = 0.95, 0.5
+    //tl = 31, 830 = 0.05, 0.5
+
+    // Left face
+    -5.0f, -0.5f, -10.0f,  1.0f, 0.0f, 0.0f,   0.0f, 0.98f, // 8
+    -5.0f, -0.5f,   0.5f,  0.0f, 1.0f, 1.0f,   0.0f, 0.5f, // 9
+    -5.0f,  0.1f,   0.5f,  0.0f, 0.0f, 0.0f,   0.05f, 0.5f, // 11
+    -5.0f,  0.1f, -10.0f,  1.0f, 1.0f, 0.0f,   0.05f, 0.98f, // 10
+    
+    //x = 10
+    //y = 0.5
+    //bl = 0, 830 = 0.0, 0.5
+    //br = 31, 830 = 0.05, 0.5
+    //tr = 31, 1632 = 0.05, 0.98
+    //tl = 0, 1632 = 0.00, 0.98
+    
+
+    // Right face
+     0.5f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,   0.0f, 0.5f, // 12
+     0.5f, -0.5f,   0.5f,  1.0f, 0.0f, 1.0f,   0.0f, 0.98f, // 13
+     0.5f,  0.1f,   0.5f,  1.0f, 1.0f, 1.0f,   0.05f, 0.98f, // 14
+     0.5f,  0.1f, -10.0f,  0.0f, 0.0f, 1.0f,   0.05f, 0.5f, // 15
+
+    // Bottom face
+    -5.0f, -0.5f,   0.5f,  0.0f, 1.0f, 1.0f,   0.05f, 0.0f, // 16
+     0.5f, -0.5f,   0.5f,  1.0f, 0.0f, 1.0f,   0.95f, 0.0f, // 17
+     0.5f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,   0.05f, 0.48f, // 18
+    -5.0f, -0.5f, -10.0f,  1.0f, 0.0f, 0.0f,   0.95f, 0.48f, // 19
+    //bl = 31, 0 = 0.05, 0.0
+    //br = 620, 0 = 0.95, 0.0
+    //tr = 620, 800 = 0.95, 0.48
+    //tl = 31, 800 = 0.05, 0.48
+    
+
+    // Top face
+    -5.0f,  0.1f, -10.0f,  1.0f, 1.0f, 0.0f,   0.05f, 0.5f, // 20
+     0.5f,  0.1f, -10.0f,  0.0f, 0.0f, 1.0f,   0.95f, 0.5f, // 21
+     0.5f,  0.1f,   0.5f,  1.0f, 1.0f, 1.0f,   0.95f, 0.98f, // 22
+    -5.0f,  0.1f,   0.5f,  0.0f, 0.0f, 0.0f,   0.05f, 0.98f // 23
+    //x = 5.5
+    //y = 9.5
+    //bl = 31, 830 = 0.05, 0.5
+    //br = 620, 830 = 0.95, 0.5
+    //tr = 620, 1632 = 0.95, 0.98
+    //tl = 31, 1632 = 0.05, 0.98
 };
 
 unsigned int planeIndices[] = {
@@ -97,17 +153,17 @@ unsigned int planeIndices[] = {
     4, 5, 6,
     6, 7, 4,
     // Left face
-    4, 0, 3,
-    3, 7, 4,
+    8, 9, 10,
+    10, 11, 8,
     // Right face
-    1, 5, 6,
-    6, 2, 1,
+    12, 13, 14,
+    14, 15, 12,
     // Bottom face
-    4, 5, 1,
-    1, 0, 4,
+    16, 17, 18,
+    18, 19, 16,
     // Top face
-    3, 2, 6,
-    6, 7, 3
+    20, 21, 22,
+    22, 23, 20
 };
 
 
@@ -244,8 +300,9 @@ int main() {
 
 
 
-    GLuint texture1 = createTexture("assets/brick_cube.png");
-    if (texture1 == 0) {
+    GLuint texture_brick_cube = createTexture("assets/brick_cube.png");
+    GLuint texture_grass_plane = createTexture("assets/grass_plane.png");
+    if (texture_brick_cube == 0) {
         fprintf(stderr, "Error: Texture failed to load.\n");
         return -1;
     }
@@ -278,7 +335,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
         // rotate cube
-        //glm_rotate(cubeModel, spin, (vec3){0.5f, 1.0f, 0.0f});
+        glm_rotate(cubeModel, spin, (vec3){0.5f, 1.0f, 0.0f});
 
         processInput(window, cubeModel, view, projection);
 
@@ -288,7 +345,7 @@ int main() {
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, (const GLfloat *)projection);
         
         glActiveTexture(GL_TEXTURE0); // Activate texture unit 0
-        glBindTexture(GL_TEXTURE_2D, texture1); // Bind the texture
+        glBindTexture(GL_TEXTURE_2D, texture_brick_cube); // Bind the texture
         glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0); // Set the sampler uniform to use texture unit 0
 
 
@@ -302,7 +359,7 @@ int main() {
         //Draw Plane
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, (const GLfloat *)planeModel);
         glBindVertexArray(VAO[1]);
-
+        glBindTexture(GL_TEXTURE_2D, texture_grass_plane); // Bind the texture
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         
         
