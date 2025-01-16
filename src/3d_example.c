@@ -7,6 +7,61 @@
 #include "../include/stb_image.h"
 #include "opengl_helpers.c"
 
+#define GRASS_BLADE_COUNT 500
+
+float skyboxVertices[] = {
+    // X     Y       Z     R     G      B        U    V
+    // Back face
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.66f, 0.75f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.33f, 0.75f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.33f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.66f, 1.0f,
+
+    // Front face
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.25f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.25f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.5f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.5f,
+
+    // Left face
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.0f, 0.5f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.5f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.75f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.0f, 0.75f,
+    
+
+    // Right face
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   1.0f, 0.5f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.5f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.75f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   1.0f, 0.75f,
+
+    // Bottom face
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.25f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.25f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.66f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.33f, 0.0f,
+
+    // Top face
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.5f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.5f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.66f, 0.75f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.33f, 0.75f
+     
+     
+    
+};
+
+
+unsigned int skyboxIndices[] = {
+    0, 1, 2, 2, 3, 0,  // Back face
+    4, 5, 6, 6, 7, 4,  // Front face
+    8, 9, 10, 10, 11, 8,  // Left face
+    12, 13, 14, 14, 15, 12,  // Right face
+    16, 17, 18, 18, 19, 16,  // Bottom face
+    20, 21, 22, 22, 23, 20   // Top face
+};
+
 //brick_cube.png coords
 // w 3070 px
 // h 4090 px
@@ -167,14 +222,38 @@ unsigned int planeIndices[] = {
 };
 
 
+vec3 grassPositions[GRASS_BLADE_COUNT];
+
+float grassVertices[] = {
+    // X     Y     Z      R     G     B    U      V
+    -0.05f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,  0.0f, 0.0f,  // Bottom Left
+     0.05f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // Bottom Right
+     0.0f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 1.0f   // Top Center
+};
+
+unsigned int grassIndices[] = {
+    0, 1, 2
+};
+
+void generateGrassPositions() {
+    for (int i = 0; i < GRASS_BLADE_COUNT; i++) {
+        float x = ((float)rand() / RAND_MAX) * 5.0f - 5.0f;
+        float z = ((float)rand() / RAND_MAX) * 5.0f - 5.0f;
+        float y = 0.1f;  // Make the blades start at the plane surface
+        grassPositions[i][0] = x;
+        grassPositions[i][1] = y;
+        grassPositions[i][2] = z;
+    }
+}
+
+
+
 GLuint createTexture(const char *filePath) {
     GLuint textureID;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
     // Set texture wrapping and filtering options
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // Wrap vertically
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Wrap horizontally
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Minification filter
@@ -232,15 +311,16 @@ int main() {
     }
 
     //load shaders
-    GLuint shaderProgram = createShaderProgram("shaders/3d_ex_vertex_shader.glsl", "shaders/3d_ex_fragment_shader.glsl");
-    glUseProgram(shaderProgram);
+    GLuint basic_shader = createShaderProgram("shaders/3d_ex_vertex_shader.glsl", "shaders/3d_ex_fragment_shader.glsl");
+    GLuint grass_shader = createShaderProgram("shaders/3d_ex_vertex_grass_shader.glsl", "shaders/3d_ex_fragment_shader.glsl");
+    glUseProgram(basic_shader);
     
     //////////
-    // VAOVBO 1
+    // VAOVBO 1 (cube)
     /////////
-    GLuint VAO[2];
-    GLuint VBO[2];
-    GLuint EBO[2];
+    GLuint VAO[4];
+    GLuint VBO[4];
+    GLuint EBO[4];
 
     glGenVertexArrays(1, &VAO[0]);
     glGenBuffers(1, &VBO[0]);
@@ -269,7 +349,7 @@ int main() {
 
 
     ///////////
-    //VAO VBO 2
+    //VAO VBO 2 (plane)
     //////////
     glGenVertexArrays(1, &VAO[1]);
     glGenBuffers(1, &VBO[1]);
@@ -297,12 +377,81 @@ int main() {
 
 
 
+    ///////////
+    //VAO VBO 3 (grass)
+    //////////
+
+    glGenVertexArrays(1, &VAO[2]);
+    glGenBuffers(1, &VBO[2]);
+    glGenBuffers(1, &EBO[2]);
+
+    glBindVertexArray(VAO[2]);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(grassVertices), grassVertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[2]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(grassIndices), grassIndices, GL_STATIC_DRAW);
+
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+
+    // Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // Texture coordinate attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    //instancing data to copy grass
+    generateGrassPositions();
+    GLuint instanceVBO;
+    glGenBuffers(1, &instanceVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(grassPositions), &grassPositions[0], GL_STATIC_DRAW);
+
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(3);
+    glVertexAttribDivisor(3, 1);  // One position per instance
+    glBindVertexArray(0);
+
+    ///////////
+    //VAO VBO 4 (skybox)
+    //////////
+
+    glGenVertexArrays(1, &VAO[3]);
+    glGenBuffers(1, &VBO[3]);
+    glGenBuffers(1, &EBO[3]);
+
+    glBindVertexArray(VAO[3]);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[3]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[3]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
+
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+
+    // Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // Texture coordinate attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+
 
 
 
     GLuint texture_brick_cube = createTexture("assets/brick_cube.png");
     GLuint texture_grass_plane = createTexture("assets/grass_plane.png");
-    if (texture_brick_cube == 0) {
+    if (texture_brick_cube == 0 || texture_grass_plane == 0) {
         fprintf(stderr, "Error: Texture failed to load.\n");
         return -1;
     }
@@ -312,8 +461,16 @@ int main() {
     // Model matrix
     mat4 cubeModel = GLM_MAT4_IDENTITY_INIT;
 
+
+    mat4 skyboxModel = GLM_MAT4_IDENTITY_INIT;
+    glm_scale(skyboxModel, (vec3){100.0f, 100.0f, 100.0f});
+
+
     mat4 planeModel = GLM_MAT4_IDENTITY_INIT;
     glm_translate(planeModel, (vec3){-5.0f, 0.0f, 0.0f});
+
+    mat4 grassModel = GLM_MAT4_IDENTITY_INIT;
+    glm_translate(grassModel, (vec3){-5.0f, 0.0f, 0.0f});
 
     // View matrix
     mat4 view = GLM_MAT4_IDENTITY_INIT;
@@ -328,7 +485,7 @@ int main() {
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     
-    glUseProgram(shaderProgram);
+    glUseProgram(basic_shader);
     float spin = 0.005;
     // Main loop
     while (!glfwWindowShouldClose(window)) {
@@ -340,13 +497,13 @@ int main() {
         processInput(window, cubeModel, view, projection);
 
         // pass MVP to shader as uniforms
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, (const GLfloat *)cubeModel);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, (const GLfloat *)view);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, (const GLfloat *)projection);
+        glUniformMatrix4fv(glGetUniformLocation(basic_shader, "model"), 1, GL_FALSE, (const GLfloat *)cubeModel);
+        glUniformMatrix4fv(glGetUniformLocation(basic_shader, "view"), 1, GL_FALSE, (const GLfloat *)view);
+        glUniformMatrix4fv(glGetUniformLocation(basic_shader, "projection"), 1, GL_FALSE, (const GLfloat *)projection);
         
         glActiveTexture(GL_TEXTURE0); // Activate texture unit 0
         glBindTexture(GL_TEXTURE_2D, texture_brick_cube); // Bind the texture
-        glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0); // Set the sampler uniform to use texture unit 0
+        glUniform1i(glGetUniformLocation(basic_shader, "texture1"), 0); // Set the sampler uniform to use texture unit 0
 
 
 
@@ -357,12 +514,38 @@ int main() {
 
 
         //Draw Plane
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"), 1, GL_FALSE, (const GLfloat *)planeModel);
+        glUniformMatrix4fv(glGetUniformLocation(basic_shader, "model"), 1, GL_FALSE, (const GLfloat *)planeModel);
         glBindVertexArray(VAO[1]);
         glBindTexture(GL_TEXTURE_2D, texture_grass_plane); // Bind the texture
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         
-        
+
+        // Draw skybox
+        glUniformMatrix4fv(glGetUniformLocation(basic_shader, "model"), 1, GL_FALSE, (const GLfloat *)skyboxModel);
+        glBindTexture(GL_TEXTURE_2D, texture_brick_cube); // Bind the texture
+        glBindVertexArray(VAO[3]);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+
+
+        //Draw Grass
+        glUseProgram(grass_shader);        
+        glUniformMatrix4fv(glGetUniformLocation(grass_shader, "view"), 1, GL_FALSE, (const GLfloat *)view);
+        glUniformMatrix4fv(glGetUniformLocation(grass_shader, "projection"), 1, GL_FALSE, (const GLfloat *)projection);
+        //glUniform1f(glGetUniformLocation(grass_shader, "time"), glfwGetTime());
+        glUniformMatrix4fv(glGetUniformLocation(grass_shader, "model"), 1, GL_FALSE, (const GLfloat *)grassModel);
+        glDepthMask(GL_FALSE);
+        //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(VAO[2]);
+        glBindTexture(GL_TEXTURE_2D, texture_grass_plane); 
+        glDrawElementsInstanced(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0, GRASS_BLADE_COUNT);
+        glDepthMask(GL_TRUE);
+        glUseProgram(basic_shader);
+
+
+
+
+
         // Swap buffers and poll IO events
         glfwSwapBuffers(window);
         glfwPollEvents();
