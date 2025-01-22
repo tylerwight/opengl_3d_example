@@ -14,7 +14,8 @@ uniform mat4 projection;
 void main() {
     // Create the model matrix manually with the translation offset
     mat4 model = mat4(1.0);
-    model[3] = vec4(aInstanceOffset, 1.0); // Set the translation in the model matrix
+    vec4 translated = vec4(aInstanceOffset, 1.0) + vec4(-5.0, 0.0, 0.0, 0.0); //Translate 5 units to left
+    model[3] = translated; // Set the translation in the model matrix
 
     // Final vertex position
     gl_Position = projection * view * model * vec4(aPos, 1.0);
@@ -22,3 +23,4 @@ void main() {
     vertexColor = aColor; // Pass the color to the fragment shader
     texCoord = aTexCoord; // Pass the texture coordinates
 }
+

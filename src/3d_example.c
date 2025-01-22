@@ -243,6 +243,7 @@ void generateGrassPositions() {
         grassPositions[i][0] = x;
         grassPositions[i][1] = y;
         grassPositions[i][2] = z;
+        //printf("X: %f, Z: %f, Y: %f\n", x, z, y);
     }
 }
 
@@ -449,8 +450,10 @@ int main() {
 
 
 
-    GLuint texture_brick_cube = createTexture("assets/brick_cube.png");
+    GLuint texture_brick_cube = createTexture("assets/concrete_cube.png");
     GLuint texture_grass_plane = createTexture("assets/grass_plane.png");
+    GLuint texture_grass_blade = createTexture("assets/grass_blade.png");
+    GLuint texture_sky_cube = createTexture("assets/sky_cube.png");
     if (texture_brick_cube == 0 || texture_grass_plane == 0) {
         fprintf(stderr, "Error: Texture failed to load.\n");
         return -1;
@@ -522,7 +525,7 @@ int main() {
 
         // Draw skybox
         glUniformMatrix4fv(glGetUniformLocation(basic_shader, "model"), 1, GL_FALSE, (const GLfloat *)skyboxModel);
-        glBindTexture(GL_TEXTURE_2D, texture_brick_cube); // Bind the texture
+        glBindTexture(GL_TEXTURE_2D, texture_sky_cube); // Bind the texture
         glBindVertexArray(VAO[3]);
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
@@ -537,7 +540,7 @@ int main() {
         glDepthMask(GL_FALSE);
         //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
         glBindVertexArray(VAO[2]);
-        glBindTexture(GL_TEXTURE_2D, texture_grass_plane); 
+        glBindTexture(GL_TEXTURE_2D, texture_grass_blade); 
         glDrawElementsInstanced(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0, GRASS_BLADE_COUNT);
         glDepthMask(GL_TRUE);
         glUseProgram(basic_shader);
