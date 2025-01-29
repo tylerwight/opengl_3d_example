@@ -12,6 +12,12 @@
 //TODO
 //Fix the texture coordinates on the skybox, they need tweaked.
 
+
+
+/////////////////
+// SKYBOX  VARS////
+////////////////
+
 float skyboxVertices[] = {
     // X     Y       Z     R     G      B        U    V
     // Back face
@@ -64,6 +70,12 @@ unsigned int skyboxIndices[] = {
     16, 17, 18, 18, 19, 16,  // Bottom face
     20, 21, 22, 22, 23, 20   // Top face
 };
+
+
+
+/////////////////
+// CUBE VARS////
+////////////////
 
 //brick_cube.png coords
 // w 3070 px
@@ -135,6 +147,11 @@ unsigned int cubeIndices[] = {
 };
 
 
+
+
+/////////////////
+// PLANE VARS////
+////////////////
 //texture size:
 // 652 w
 // 1662 h
@@ -225,6 +242,9 @@ unsigned int planeIndices[] = {
 };
 
 
+/////////////////
+// GRASS VARS////
+////////////////
 vec3 grassPositions[GRASS_BLADE_COUNT];
 
 float grassVertices[] = {
@@ -237,8 +257,6 @@ float grassVertices[] = {
 unsigned int grassIndices[] = {
     0, 1, 2
 };
-
-
 
 
 void generateGrassPositions() {
@@ -255,43 +273,9 @@ void generateGrassPositions() {
 
 
 
-GLuint createTexture(const char *filePath) {
-    GLuint textureID;
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
 
-    // Set texture wrapping and filtering options
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Minification filter
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Magnification filter
 
-    // Load image using stb_image
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(1); // Flip images vertically (most image formats are stored upside down for OpenGL)
-    unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
-    if (data) {
-        GLenum format;
-        if (nrChannels == 1)
-            format = GL_RED;
-        else if (nrChannels == 3)
-            format = GL_RGB;
-        else if (nrChannels == 4)
-            format = GL_RGBA;
-
-        // Load texture data into OpenGL
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
-        fprintf(stderr, "Failed to load texture: %s\n", filePath);
-        stbi_image_free(data);
-        return 0; // Return 0 for failed texture loading
-    }
-    printf("Texture dimensions: %d x %d, channels: %d\n", width, height, nrChannels);
-    stbi_image_free(data);
-    return textureID;
-}
-
+// MAIN
 
 int main() {
     // Initialize GLFW / GLEW
