@@ -8,19 +8,29 @@ layout (location = 3) in vec3 aInstanceOffset; // Instance position offset
 out vec3 vertexColor;
 out vec2 texCoord;
 
+uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform float time;
 
 void main() {
-    // Create the model matrix manually with the translation offset
-    mat4 model = mat4(1.0);
-    vec4 translated = vec4(aInstanceOffset, 1.0) + vec4(-5.0, 0.0, 0.0, 0.0); //Translate 5 units to left
-    model[3] = translated; // Set the translation in the model matrix
+    // create sway offset
+    float swayStrength = aPos.y; // 0 at base, 1 at top
+    float sway = sin(time + aInstanceOffset.x * 5.0 + aInstanceOffset.z * 5.0) * 0.1 * swayStrength;
 
-    // Final vertex position
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
+    // Apply sway to vertex position directly
+    vec3 modifiedPos = aPos;
+    modifiedPos.x += sway; // Apply sway only to the X-axis
 
-    vertexColor = aColor; // Pass the color to the fragment shader
-    texCoord = aTexCoord; // Pass the texture coordinates
+    // Compute final world position
+    vec4 worldPos = model * vec4(modifiedPos, 1.0);
+
+    // Translate instance position
+    worldPos.xyz += aInstanceOffset; // Move to correct plane position
+
+    // Compute final position
+    gl_Position = projection * view * worldPos;
+
+    vertexColor = aColor; // Pass color to fragment shader
+    texCoord = aTexCoord; // Pass texture coordinates
 }
-

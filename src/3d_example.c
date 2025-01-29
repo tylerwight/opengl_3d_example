@@ -543,7 +543,7 @@ int main() {
         glUseProgram(grass_shader);        
         glUniformMatrix4fv(glGetUniformLocation(grass_shader, "view"), 1, GL_FALSE, (const GLfloat *)view);
         glUniformMatrix4fv(glGetUniformLocation(grass_shader, "projection"), 1, GL_FALSE, (const GLfloat *)projection);
-        //glUniform1f(glGetUniformLocation(grass_shader, "time"), glfwGetTime());
+        glUniform1f(glGetUniformLocation(grass_shader, "time"), glfwGetTime());
         glUniformMatrix4fv(glGetUniformLocation(grass_shader, "model"), 1, GL_FALSE, (const GLfloat *)grassModel);
         //glDepthMask(GL_FALSE);
         //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
