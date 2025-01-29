@@ -9,6 +9,9 @@
 
 #define GRASS_BLADE_COUNT 500
 
+//TODO
+//Fix the texture coordinates on the skybox, they need tweaked.
+
 float skyboxVertices[] = {
     // X     Y       Z     R     G      B        U    V
     // Back face
@@ -234,6 +237,9 @@ float grassVertices[] = {
 unsigned int grassIndices[] = {
     0, 1, 2
 };
+
+
+
 
 void generateGrassPositions() {
     for (int i = 0; i < GRASS_BLADE_COUNT; i++) {
@@ -461,13 +467,11 @@ int main() {
 
     //setup mvp
 
-    // Model matrix
+    // Model matrix -- location of each object
     mat4 cubeModel = GLM_MAT4_IDENTITY_INIT;
-
 
     mat4 skyboxModel = GLM_MAT4_IDENTITY_INIT;
     glm_scale(skyboxModel, (vec3){100.0f, 100.0f, 100.0f});
-
 
     mat4 planeModel = GLM_MAT4_IDENTITY_INIT;
     glm_translate(planeModel, (vec3){-5.0f, 0.0f, 0.0f});
@@ -475,11 +479,11 @@ int main() {
     mat4 grassModel = GLM_MAT4_IDENTITY_INIT;
     glm_translate(grassModel, (vec3){-5.0f, 0.0f, 0.0f});
 
-    // View matrix
+    // View matrix -- where the camera is located
     mat4 view = GLM_MAT4_IDENTITY_INIT;
     glm_translate(view, (vec3){0.0f, 0.0f, -100.0f}); // set camera some units back in Z from the cube
 
-    // Projection matrix
+    // Projection matrix -- project to screen
     mat4 projection;
     glm_perspective(glm_rad(45.0f), 800.0f / 600.0f, 0.1f, 100.0f, projection); // set FOV, Aspect Ratio, and near and far plane on screen
 
@@ -492,6 +496,8 @@ int main() {
     float spin = 0.005;
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -499,7 +505,7 @@ int main() {
         // rotate cube
         glm_rotate(cubeModel, spin, (vec3){0.5f, 1.0f, 0.0f});
 
-        processInput(window, cubeModel, view, projection);
+        processInput(window, cubeModel, view, projection); //WASD/Mouse movement
 
         // pass MVP to shader as uniforms
         glUniformMatrix4fv(glGetUniformLocation(basic_shader, "model"), 1, GL_FALSE, (const GLfloat *)cubeModel);
