@@ -228,7 +228,7 @@ float grassVertices[] = {
     // X     Y     Z      R     G     B    U      V
     -0.05f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,  0.0f, 0.0f,  // Bottom Left
      0.05f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // Bottom Right
-     0.0f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 1.0f   // Top Center
+     0.0f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 1.0f   // Top Center
 };
 
 unsigned int grassIndices[] = {
@@ -238,7 +238,7 @@ unsigned int grassIndices[] = {
 void generateGrassPositions() {
     for (int i = 0; i < GRASS_BLADE_COUNT; i++) {
         float x = ((float)rand() / RAND_MAX) * 5.0f - 5.0f;
-        float z = ((float)rand() / RAND_MAX) * 5.0f - 5.0f;
+        float z = ((float)rand() / RAND_MAX) * 10.0f - 10.0f;
         float y = 0.1f;  // Make the blades start at the plane surface
         grassPositions[i][0] = x;
         grassPositions[i][1] = y;
@@ -490,6 +490,8 @@ int main() {
     
     glUseProgram(basic_shader);
     float spin = 0.005;
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -537,12 +539,12 @@ int main() {
         glUniformMatrix4fv(glGetUniformLocation(grass_shader, "projection"), 1, GL_FALSE, (const GLfloat *)projection);
         //glUniform1f(glGetUniformLocation(grass_shader, "time"), glfwGetTime());
         glUniformMatrix4fv(glGetUniformLocation(grass_shader, "model"), 1, GL_FALSE, (const GLfloat *)grassModel);
-        glDepthMask(GL_FALSE);
+        //glDepthMask(GL_FALSE);
         //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
         glBindVertexArray(VAO[2]);
         glBindTexture(GL_TEXTURE_2D, texture_grass_blade); 
         glDrawElementsInstanced(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0, GRASS_BLADE_COUNT);
-        glDepthMask(GL_TRUE);
+        //glDepthMask(GL_TRUE);
         glUseProgram(basic_shader);
 
 
