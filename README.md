@@ -8,6 +8,7 @@ features:
 - Spinning cube with cubemap textures
 - Flat plane with textures
 - Rendering individual grass blades using instancing
+- grass blades sway
 - Skybox
 
 
