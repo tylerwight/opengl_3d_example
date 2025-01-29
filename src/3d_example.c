@@ -555,7 +555,11 @@ int main() {
 
 
 
-
+        //resize viewport if window size changes
+        int window_w;
+        int window_h;
+        glfwGetWindowSize(window, &window_w, &window_h);
+        glViewport(0, 0, window_w, window_h);
 
         // Swap buffers and poll IO events
         glfwSwapBuffers(window);
