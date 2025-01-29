@@ -16,15 +16,15 @@ float skyboxVertices[] = {
     // X     Y       Z     R     G      B        U    V
     // Back face
     -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.66f, 0.75f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.33f, 0.75f,
-     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.33f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.34f, 0.75f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.34f, 1.0f,
     -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.66f, 1.0f,
 
     // Front face
-    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.25f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.34f, 0.25f,
      0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.25f,
      0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.5f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.5f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.34f, 0.5f,
 
     // Left face
     -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.0f, 0.5f,
@@ -35,21 +35,21 @@ float skyboxVertices[] = {
 
     // Right face
      0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   1.0f, 0.5f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.5f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.75f,
-     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   1.0f, 0.75f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.67f, 0.5f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.67f, 0.749f,
+     0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   1.0f, 0.749f,
 
     // Bottom face
-    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.33f, 0.25f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 1.0f, 1.0f,   0.34f, 0.25f,
      0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 1.0f,   0.66f, 0.25f,
      0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f,   0.66f, 0.0f,
-    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.33f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,   0.34f, 0.0f,
 
     // Top face
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.33f, 0.5f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f,   0.34f, 0.5f,
      0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,   0.66f, 0.5f,
      0.5f,  0.5f, -0.5f,  0.0f, 0.0f, 1.0f,   0.66f, 0.75f,
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.33f, 0.75f
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f,   0.34f, 0.75f
      
      
     
@@ -435,10 +435,10 @@ int main() {
     glBindVertexArray(VAO[3]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[3]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), skyboxVertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[3]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(skyboxIndices), skyboxIndices, GL_STATIC_DRAW);
 
     // Position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
