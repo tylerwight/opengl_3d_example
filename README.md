@@ -1,6 +1,6 @@
-# OpenGL 3d Demo
+# OpenGL 3D Demo
 
-This is a basic 3D OpenGL Demo in pure C with no abstraction to see the raw implementation.
+This is a basic 3D OpenGL Demo in pure C with no abstraction to see the raw implementation. Uses stb_image for image handling.
 
 features: 
 
@@ -16,7 +16,7 @@ features:
 ![alt text](assets/readme.png)
 
 
-# how to compile:
+# How to Compile:
 
 
 Ubuntu (24.04):
@@ -33,4 +33,6 @@ git clone https://github.com/tylerwight/opengl_3d_example
 cd opengl_3d_example
 gcc  -o ./3d_example ./src/3d_example.c  -g -lm -lglfw -lGLEW -lGL
 ```
+
+then run with `./3d_example`
 
