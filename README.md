@@ -14,7 +14,7 @@ features:
 
 
 
-![alt text](assets/readme.mp4)
+![example](assets/readme.gif)
 
 
 # How to Compile:
