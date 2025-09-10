@@ -14,7 +14,7 @@ features:
 
 
 
-![alt text](assets/readme.png)
+![alt text](assets/readme.mp4)
 
 
 # How to Compile:
@@ -23,12 +23,8 @@ features:
 Ubuntu (24.04):
 
 ```
-sudo apt install build-essential
-sudo apt install git
-sudo apt install libglew-dev
-sudo apt install libglfw3
-sudo apt install libglfw3-dev
-sudo apt install libcglm-dev
+sudo apt install build-essential git libglew-dev libglfw3 libglfw3-dev libcglm-dev
+
 
 git clone https://github.com/tylerwight/opengl_3d_example
 cd opengl_3d_example

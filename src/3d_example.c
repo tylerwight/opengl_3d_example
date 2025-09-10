@@ -279,6 +279,7 @@ void generateGrassPositions() {
 
 int main() {
     // Initialize GLFW / GLEW
+    glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
         return -1;
@@ -489,7 +490,7 @@ int main() {
         // rotate cube
         glm_rotate(cubeModel, spin, (vec3){0.5f, 1.0f, 0.0f});
 
-        processInput(window, cubeModel, view, projection); //WASD/Mouse movement
+        processInput(window, &cubeModel, &view, &projection); //WASD/Mouse movement
 
         // pass MVP to shader as uniforms
         glUniformMatrix4fv(glGetUniformLocation(basic_shader, "model"), 1, GL_FALSE, (const GLfloat *)cubeModel);
